@@ -1,7 +1,9 @@
 package com.order.Order.Service;
 
 
+import com.order.Order.Client.ProductServiceClient;
 import com.order.Order.DTO.CartItemRequest;
+import com.order.Order.DTO.ProductResponse;
 import com.order.Order.Model.CartItem;
 import com.order.Order.Repository.CartItemRepository;
 import jakarta.transaction.Transactional;
@@ -17,29 +19,26 @@ public class CartService {
 
     private final CartItemRepository cartItemRepository;
 
+    private final ProductServiceClient productServiceClient;
+
     @Autowired
-    public CartService(CartItemRepository cartItemRepository)
+    public CartService(CartItemRepository cartItemRepository, ProductServiceClient productServiceClient)
     {
         this.cartItemRepository = cartItemRepository;
+        this.productServiceClient = productServiceClient;
     }
 
     public boolean addToCart(Long userId, CartItemRequest request) {
 
-        //Look for product
+        //api call
+        ProductResponse productResponse = productServiceClient.getProductDetails(request.getProductId());
 
-//        Optional<Product> productOpt = productRepository.findById(request.getProductId());
-//
-//        if(productOpt.isEmpty())
-//        {
-//            return false;
-//        }
-//
-//        Product product = productOpt.get();
-//
-//        if(product.getStockQuantity() < request.getQuantity())
-//        {
-//            return false;
-//        }
+        if(productResponse == null)
+            return false;
+
+
+        if(productResponse.getStockQuantity() < request.getQuantity())
+            return false;
 //
 //
 //        Optional<User> userOpt = userRepository.findById(Long.valueOf(userId));
