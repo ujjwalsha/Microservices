@@ -14,6 +14,16 @@ eureka:
     register-with-eureka: true
     fetch-registry: true
 
+logging:
+  level:
+    root: INFO
+  file:
+    name: logs/${spring.application.name}.log   #Spring boot interpret relative path based on my application started.
+  logback:
+    rollingpolicy:
+      max-file-size: 5MB  #upto use 5MB
+      max-history: 7  # keep the log last 7 days
+
 
 
 management:
