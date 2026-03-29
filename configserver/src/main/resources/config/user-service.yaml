@@ -24,8 +24,6 @@ logging:
       max-file-size: 5MB  #upto use 5MB
       max-history: 7  # keep the log last 7 days
 
-
-
 management:
   endpoints:
     web:
